@@ -14,28 +14,39 @@ name = os.getenv("DB_NAME")
 
 sql = connection(user, password, host, 5432, name)
 
-# @callback(
-# 	Output(
-# 		"demo_figure",'figure'
-# 	),
-# 	[
-# 		Input(
-# 			'artist_demos', 'value'
-# 		)
-# 	]
-# )
-# def update_artist_figure(value:list):
-# 	cols = ", ".join(value)
-# 	if len(value) == 1 and 'Gender' in value:
-# 		df = sql.get_df(f"SELECT gender, count(gender) FROM artist group by gender")
-# 		return vis.create_bar_graph(df, "gender", 'count')
-# 	elif len(value) == 1 and 'Gender' not in value:
-# 		df = sql.get_df(f"SELECT nationality, count(nationality) FROM artist group by nationality")
-# 		return vis.create_bar_graph(df, "nationality", 'count')
-# 	else:
-# 		df = sql.get_df(f"SELECT nationality, gender, count(gender) FROM artist group by nationality, gender")
-# 		return vis.create_bar_graph(df, "nationality", 'count', colour='gender')
-	
+@callback(
+	Output(
+		"artist_info",'children'
+	),
+	[
+		Input(
+			'filters', 'value'
+		)
+	]
+)
+def update_artist_info(name):
+	if name is None:
+		return []
+	artist_info = sql.get_list(
+	f"""
+		SELECT * 
+		FROM artist
+		WHERE artist_name = '{name}'
+	"""
+	)[0]
+	artist_works = sql.get_list(
+	f"""
+		SELECT COUNT(title) from artwork
+		WHERE artist_id = {artist_info[0]}
+	"""
+	)
+	return [
+		html.H1(artist_info[1]),
+		html.H2("Nationality: " + artist_info[2]),
+		html.H2("Gender: " + artist_info[3]),
+		html.H2("Started: " + str(artist_info[4])),
+		html.H2("Ended: " + str(artist_info[5]) if artist_info[5] != 0 else '---')
+	]
 
 @callback(
 	Output(
@@ -64,11 +75,9 @@ def update_filters_dropdown(value:list):
 		cols = ['department', 'year']
 		print(cols)
 		return names, cols
-	# elif "artwork" in value:
-	# 	names = [artist[0] for artist in sql.get_list("""
-	# 		SELECT artist_name from artist
-	# 	""")]
-	# 	return names
+	elif "artwork" in value:
+		cols = ['nationality', 'gender', 'year', 'department']
+		return [], cols
 
 @callback(
 	Output(
@@ -104,8 +113,31 @@ def update_demo_fig(type, name, filter):
 			"""
 		)
 		return vis.create_bar_graph(artworks, filter, 'count')
-	# elif "artwork" in value:
-	# 	names = [artist[0] for artist in sql.get_list("""
-	# 		SELECT artist_name from artist
-	# 	""")]
-	# 	return names
+	elif "artwork" in type:
+		if filter == 'year_completed' or filter == 'department':
+			df = sql.get_df(f"SELECT {filter}, COUNT({filter}) FROM artwork GROUP BY {filter}")
+			return vis.create_bar_graph(df, filter, 'count')
+		df = sql.get_df(f"SELECT {filter}, COUNT({filter}) FROM artist GROUP BY {filter}")
+		return vis.create_bar_graph(df, filter, 'count')
+
+@callback(
+	Output(
+		"number_of_artists",'children'
+	),
+	Output(
+		"number_of_artworks",'children'
+	),
+	[
+		Input(
+			'view_select', 'value'
+		)
+	]
+)
+def get_artwork_artist_totals(value):
+	artworks = sql.get_list("""
+		SELECT COUNT(title) FROM artwork
+	""")[0][0]
+	artists = sql.get_list("""
+		SELECT COUNT(artist_id) FROM artist
+	""")[0][0]
+	return artists, artworks

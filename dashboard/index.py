@@ -4,69 +4,38 @@ from pages import search, stats
 
 layout = html.Div(
   children=[
-		html.Header(
-			children=[
-				dcc.Location(
-					id='url',
-					refresh=False,
-				),
-			]
-		),
-		html.Div(
-			children=[
-				dcc.Link(
-					children=[
-						html.Button(
-							children="Home",
-							className='nav_button'
-						)
-					],
-					href="./"
-				),
-				dcc.Link(
-					children=[
-						html.Button(
-							children="Search",
-							className='nav_button'
-						)
-					],
-					href="./search"
-				),
-				dcc.Link(
-					children=[
-						html.Button(
-							children="Stats",
-							className='nav_button'
-						)
-					],
-					href="./stats"
-				)
-			],
-			id='nav_bar'
-		),
     html.Div(
 			children=[
+				html.H1('MoMA Data Bank'),
 				html.Div(
 					children=[
 						html.Div(
-							html.H2("Total Number of Artists")
+							children=[
+								html.Div(
+									html.H2("Total Number of Artists")
+								),
+								html.Div(
+									html.H2(id='number_of_artists')
+								)
+							],
+							className='totals'
 						),
 						html.Div(
-							html.H2(id='number_of_artists')
-						)
-					]
-				),
-				html.Div(
-					children=[
-						html.Div(
-							html.H2("Total Number of Artworks")
+							children=[
+								html.Div(
+									html.H2("Total Number of Artworks")
+								),
+								html.Div(
+									html.H2(id='number_of_artworks')
+								)
+							],
+							className='totals'
 						),
-						html.Div(
-							html.H2(id='number_of_artworks')
-						)
-					]
+					],
+					id='totals'
 				),
-			]
+			],
+      id='header'
 		),
 		html.Div(
 			children=[
@@ -93,6 +62,9 @@ layout = html.Div(
 						),
 					],
           id="dropdowns"
+				),
+				html.Div(
+					html.Div(id="artist_info")
 				),
 				html.Div(
 					dcc.Graph(id="demo_figure")
