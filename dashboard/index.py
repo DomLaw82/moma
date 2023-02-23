@@ -74,15 +74,21 @@ layout = html.Div(
 					children=[
 						html.Div(
 							dcc.Dropdown(
-								options=["Artist","Artwork"],
-								multi=True,
-								id="view_select"
+								options=["artist","artwork"],
+								id="view_select",
+								className="dropdown"
 							)
 						),
 						html.Div(
 							dcc.Dropdown(
-								multi=True,
-								id="demos"
+								id="filters",
+								className="dropdown"
+							)
+						),
+						html.Div(
+							dcc.Dropdown(
+								id="demos",
+								className="dropdown"
 							)
 						),
 					],

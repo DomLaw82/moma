@@ -8,7 +8,7 @@ class connection():
 		Class for connecting to the database
 	"""
 	def __init__(self, username, password, host, port, name) -> None:
-		self.engine = sqlalchemy.create_engine(f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{name}")
+		self.engine = sqlalchemy.create_engine(f"postgresql+psycopg2://{username}:{password}@{host}:{port}/{name}", isolation_level='AUTOCOMMIT')
 		self.conn = self.engine.connect()
 		
 

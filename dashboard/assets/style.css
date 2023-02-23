@@ -1,0 +1,9 @@
+#dropdowns {
+	display: flex;
+	flex-direction: row;
+	width: 100vw;
+	justify-content: center;
+}
+.dropdown {
+	width: 25vw;
+}
