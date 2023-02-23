@@ -28,8 +28,6 @@ sql = connection(user, password, host, 5432, name)
 	]
 )
 def update_artist_info(name, view):
-	name = name.lower()
-	view = view.lower()
 	if name is None or view != 'artist':
 		return []
 	artist_info = sql.get_list(
@@ -67,7 +65,7 @@ def update_artist_info(name, view):
 		)
 	]
 )
-def update_filters_dropdown(value:list):
+def update_filters_dropdown(value):
 	if value is None:
 		return [], []
 	if "artist" in value:

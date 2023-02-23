@@ -1,6 +1,5 @@
 from dash import html, dcc, Input, Output, callback
 from app import app
-from pages import search, stats
 
 layout = html.Div(
   children=[
@@ -43,7 +42,7 @@ layout = html.Div(
 					children=[
 						html.Div(
 							dcc.Dropdown(
-								options=["Artist","Artwork"],
+								options=["artist","artwork"],
 								id="view_select",
 								className="dropdown"
 							)

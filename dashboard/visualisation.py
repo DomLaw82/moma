@@ -5,9 +5,22 @@ import plotly.express as px
 import pandas as pd
 
 def create_bar_graph(data:pd.DataFrame, x:str, y:str, **kwargs) -> px.bar:
+    """
+        Generate a bar graph
+
+	Keyword Args:
+        colour (str): group bars based on these columns
+	
+    Args:
+        data (pd.DataFrame): dataframe containing info
+        x (str): x axis data
+        y (str): y axis data
+
+    Returns:
+        px.bar: figure
+    """
     colour = kwargs.get('colour')
-    title = kwargs.get('title')
-    fig = px.bar(data, x, y, color=colour).update_layout(paper_bgcolor="#619B8A", plot_bgcolor='#619B8A', title=f'Pieces by {format_axes_labels(x)}')
+    fig = px.bar(data, x, y, color=colour, text_auto='.0f').update_layout(paper_bgcolor="#619B8A", plot_bgcolor='#619B8A', title=f'Pieces by {format_axes_labels(x)}')
     fig.update_xaxes(title_font=dict(color='#f0f8ff'), tickfont=dict(color='#f0f8ff'), title=format_axes_labels(x))
     fig.update_xaxes(gridcolor='#f0f8ff', zerolinecolor='#f0f8ff', zerolinewidth=3)
     fig.update_yaxes(title_font=dict(color='#f0f8ff'), tickfont=dict(color='#f0f8ff'), title=format_axes_labels(y))
