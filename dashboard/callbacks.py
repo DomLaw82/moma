@@ -21,11 +21,16 @@ sql = connection(user, password, host, 5432, name)
 	[
 		Input(
 			'filters', 'value'
-		)
+		),
+		Input(
+			'view_select', 'value'
+		),
 	]
 )
-def update_artist_info(name):
-	if name is None:
+def update_artist_info(name, view):
+	name = name.lower()
+	view = view.lower()
+	if name is None or view != 'artist':
 		return []
 	artist_info = sql.get_list(
 	f"""
@@ -39,13 +44,14 @@ def update_artist_info(name):
 		SELECT COUNT(title) from artwork
 		WHERE artist_id = {artist_info[0]}
 	"""
-	)
+	)[0][0]
 	return [
 		html.H1(artist_info[1]),
 		html.H2("Nationality: " + artist_info[2]),
 		html.H2("Gender: " + artist_info[3]),
 		html.H2("Started: " + str(artist_info[4])),
-		html.H2("Ended: " + str(artist_info[5]) if artist_info[5] != 0 else '---')
+		html.H2("Ended: " + str(artist_info[5]) if artist_info[5] != 0 else 'Ended: ----'),
+		html.H2("Pieces: " + str(artist_works))
 	]
 
 @callback(
@@ -73,11 +79,10 @@ def update_filters_dropdown(value:list):
 			)
 		]
 		cols = ['department', 'year']
-		print(cols)
 		return names, cols
 	elif "artwork" in value:
 		cols = ['nationality', 'gender', 'year', 'department']
-		return [], cols
+		return ['All'], cols
 
 @callback(
 	Output(

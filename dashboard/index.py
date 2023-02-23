@@ -6,7 +6,7 @@ layout = html.Div(
   children=[
     html.Div(
 			children=[
-				html.H1('MoMA Data Bank'),
+				html.H1('MoMA Data Bank', id='title'),
 				html.Div(
 					children=[
 						html.Div(
@@ -43,7 +43,7 @@ layout = html.Div(
 					children=[
 						html.Div(
 							dcc.Dropdown(
-								options=["artist","artwork"],
+								options=["Artist","Artwork"],
 								id="view_select",
 								className="dropdown"
 							)
@@ -76,26 +76,3 @@ layout = html.Div(
 )
 
 app.layout = layout
-
-# page_references = {
-# 	"/home": layout,
-# 	"/search": search.layout,
-# 	"/stats": stats.layout
-# }
-
-# @callback(
-# 	Output(
-# 			component_id='page_content',
-# 			component_property='children',
-# 			),
-# 	[Input(
-# 			component_id='url',
-# 			component_property='pathname',
-# 			)]
-# )
-# def display_page(pathname: str) -> html.Div:
-# 	if pathname in list(page_references.keys()):
-# 		print(pathname)
-# 		return page_references[pathname]
-# 	else:
-# 			return '404'

@@ -1,8 +1,31 @@
+#header {
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+#title {
+	padding: 2vw;
+}
+#totals {
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	background-color: #233d4d;
+	color: aliceblue;
+}
+.totals {
+	padding: 2vw;
+}
+
 #dropdowns {
 	display: flex;
 	flex-direction: row;
-	width: 100vw;
 	justify-content: center;
+	padding: 2vw;
+	background-color: #fe7f2d;
 }
 
 .dropdown {
@@ -11,22 +34,11 @@
 
 #artist_info {
 	text-align: center;
+	background-color: #fcca46;
+	padding: 1vw;
+	/* background-color: #233d4d; */
 }
 
-#header {
-	text-align: center;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-}
-
-#totals {
-	text-align: center;
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-}
-.totals {
-	padding: 2vw;
+#demo_figure {
+	background-color: #a1c181;
 }
