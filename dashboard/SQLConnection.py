@@ -26,7 +26,7 @@ class connection():
 				pd.DataFrame: containing queried data
 		"""
 		try:
-			index_col = kwargs['index_col']
+			index_col = kwargs.get('index_col')
 			query = sqlalchemy.text(query)
 			df = pd.read_sql(query, self.conn, index_col=index_col)
 			print(f"{query} executed")
